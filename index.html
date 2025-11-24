@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport IA - Prédiction Diabète</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        h1 { margin: 0; font-size: 1.8rem; }
+        h2 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 40px; color: #2c3e50; }
+        
+        /* Styles pour les résultats textuels */
+        .console-output {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap; /* Conserve les sauts de ligne */
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Grille pour les images */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .card h3 { font-size: 1rem; margin-top: 10px; color: #555; }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📊 Tableau de Bord : Analyse & Prédiction Diabète</h1>
+        <p>Résultats générés par <code>main.py</code></p>
+    </header>
+
+    <section>
+        <h2>📄 Résultats et Métriques (Console)</h2>
+        <div id="console-content" class="console-output">
+            Chargement des résultats en cours...
+        </div>
+    </section>
+
+    <section>
+        <h2>📈 Visualisations</h2>
+        <div class="gallery">
+            <div class="card">
+                <img src="figures/01_repartition_classes.png" alt="Répartition">
+                <h3>Répartition des classes</h3>
+            </div>
+
+            <div class="card">
+                <img src="figures/02_confusion_matrix_LogisticRegression.png" alt="Confusion LR">
+                <h3>Matrice Confusion (Logistic Regression)</h3>
+            </div>
+            <div class="card">
+                <img src="figures/02_confusion_matrix_RandomForest.png" alt="Confusion RF">
+                <h3>Matrice Confusion (Random Forest)</h3>
+            </div>
+
+            <div class="card">
+                <img src="figures/03_courbe_roc.png" alt="ROC Curve">
+                <h3>Courbe ROC Comparée</h3>
+            </div>
+
+            <div class="card">
+                <img src="figures/04_importance_variables.png" alt="Importance Variables">
+                <h3>Importance des Variables</h3>
+            </div>
+
+            <div class="card">
+                <img src="figures/05_shap_summary.png" alt="SHAP Summary">
+                <h3>SHAP Summary Plot</h3>
+            </div>
+            <div class="card">
+                <img src="figures/06_shap_beeswarm.png" alt="SHAP Beeswarm">
+                <h3>SHAP Beeswarm Plot</h3>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Projet développé avec Python, Scikit-Learn & Matplotlib</p>
+    </footer>
+
+    <script>
+        // Script pour charger le fichier texte généré par Python
+        fetch('rapport_execution.txt')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Fichier non trouvé. Avez-vous exécuté main.py ?");
+                }
+                return response.text();
+            })
+            .then(text => {
+                document.getElementById('console-content').textContent = text;
+            })
+            .catch(error => {
+                document.getElementById('console-content').textContent = 
+                    "⚠️ Erreur : Impossible de charger 'rapport_execution.txt'. \n" +
+                    "Assurez-vous d'avoir exécuté main.py au moins une fois et que le fichier existe.";
+                document.getElementById('console-content').style.color = "red";
+            });
+    </script>
+
+</body>
+</html>
